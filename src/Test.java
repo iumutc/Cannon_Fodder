@@ -301,6 +301,31 @@ public class Test {
                                             break;
 
                                         case 2:
+                                            System.out.println("""
+                                            Please choose the character to heal
+                                            1.Fighter
+                                            2.Tank
+                                            3.Healer""");
+                                            int healingCharacter = input.nextInt();
+                                            if (healingCharacter==1 && !myFighter.isAlive()){
+                                                System.out.println("Fighter is dead. Choose someone else");
+                                                break;
+                                            }else if (healingCharacter==1 && myFighter.isAlive()){
+                                                myFighter.setFighterHP(myFighter.getFighterHP()+myHealer.activeWeapon.heal(myHealer));
+                                                System.out.println("Fighter healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
+                                                turnPass=false;
+                                            }else if (healingCharacter==2 && !myTank.isAlive()){
+                                                System.out.println("Tank is dead. Choose someone else");
+                                                break;
+                                            }else if (healingCharacter==2 && myTank.isAlive()){
+                                                myTank.setTankHP(myTank.getTankHP()+myHealer.activeWeapon.heal(myHealer));
+                                                System.out.println("Tank healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
+                                                turnPass=false;
+                                            }else if (healingCharacter==3 && myHealer.isAlive()){
+                                                myHealer.setHealerHP(myHealer.getHealerHP()+myHealer.activeWeapon.heal(myHealer));
+                                                System.out.println("Healer healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
+                                                turnPass=false;
+                                            }
                                             break;
 
                                         case 3:
