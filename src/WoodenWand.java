@@ -1,7 +1,7 @@
 public class WoodenWand extends Wand{
     @Override
     public int getValue(){
-        value=5;
+        value=2;
         return value;
     }
     public double getWeight(){
@@ -18,9 +18,15 @@ public class WoodenWand extends Wand{
         return damage;
     }
 
-    public WoodenWand(int woodenWandValue,double woodenWandWeight){
+    @Override
+    public int heal(Character character) {
+        int heal = (getValue()*character.getIntelligence());
+        return heal;
+    }
+
+    public WoodenWand(int woodenWandValue, double woodenWandWeight){
         this.value=woodenWandValue;
         this.weight=woodenWandWeight;
-
     }
+    public WoodenWand(){}
 }

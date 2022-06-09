@@ -1,5 +1,8 @@
 public class ShortBlade extends Sword {
 
+    protected int damage;
+    protected int inactivity;
+
     @Override
     public int getValue(){
         value=5;
@@ -15,16 +18,19 @@ public class ShortBlade extends Sword {
     }
 
     public int calculateDamage(Character character){
-        int damage = (getValue()* character.getStrength())/2;
+        damage = (getValue()* character.getStrength())/2;
         return damage;
     }
 
-    public int inactivityofShortBlade(Character character) {
-        int inactivity = (value * character.getStrength());
+    @Override
+    public int inactivity(Character character) {
+        inactivity = (getValue() * character.getStrength());
         return inactivity;
     }
+
     public ShortBlade(int valueofShortBlade,double weightofShortBlade){
         this.value=valueofShortBlade;
         this.weight=weightofShortBlade;
     }
+    public ShortBlade(){}
 }

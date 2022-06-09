@@ -102,6 +102,7 @@ public abstract class Character {
         selectedItemNo = sc.nextInt()-1;
         this.selectedItem = inventory.get(selectedItemNo);
     }
+
     public void discardItem(){
         Scanner sc = new Scanner(System.in);
         System.out.println("discarded items are forever lost do you really wish to discard "+ selectedItem.getName()+" ?[y][n]");
@@ -128,7 +129,7 @@ public abstract class Character {
         System.out.println("selected items attributes: ");
         System.out.println("Name: "+selectedItem.getName());
         System.out.println("Weight: "+selectedItem.getWeight());
-        System.out.println("Sell value: "+selectedItem.getValue());
+        System.out.println("Value: "+selectedItem.getValue());
     }
                             //item related methodes ends here
 
@@ -145,6 +146,22 @@ public abstract class Character {
                 Press 7 to calculate your damage
                 Press 8 to calculate your armor
                 Press 9 to calculate your HP"""
+        );
+    }
+    public void endLevelMenu(){
+        System.out.println("""
+                Please choose the action
+                ----------------------------------
+                Press 1 to see dropped item list
+                Press 2 to pick dropped item
+                Press 3 to See your inventory
+                Press 4 to equip item in your inventory
+                Press 5 to discard item in your inventory
+                Press 6 to examine item
+                Press 7 to calculate your damage
+                Press 8 to calculate your armor
+                Press 9 to calculate your HP
+                Press 10 to go next level"""
         );
     }
 
