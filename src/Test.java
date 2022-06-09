@@ -7,7 +7,8 @@ import java.util.Scanner;
 public class Test {
     public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
-        File scoreFile = new File("highscores.txt");
+        FileOutputStream fos = null;
+        File file;
 
         boolean offSwitch=true;
 
@@ -49,6 +50,9 @@ public class Test {
                     System.out.println("Fighter created with S:" + myFighter.getStrength() + " V:" + myFighter.getVitality() + " I:" + myFighter.getIntelligence() + ".The HP is " + myFighter.getFighterHP() + ".Fighter wields "+shortBlade.getName()+" with " + shortBlade.getValue() + " damages and " + shortBlade.getWeight() + " units of weight.");
                     System.out.println("Tank created with S:" + myTank.getStrength() + " V:" + myTank.getVitality() + " I:" + myTank.getIntelligence() + ".The HP is " + myTank.getTankHP() + ".Tank wields "+roundShield.getName()+" with " +roundShield.calculateDamage(myTank)+ " damages and " + roundShield.getWeight() + " unit of weight.");
                     System.out.println("Healer created with S:" + myHealer.getStrength() + " V:" + myHealer.getVitality() + " I:" + myHealer.getIntelligence() + ".The HP is " + myHealer.getHealerHP() + ".Healer wields "+goldenWand.getName()+" with " + woodenWand.getValue() + " damages and " + woodenWand.getWeight() + " unit of weight.");
+                    int healerMaxHP=myHealer.getHealerHP();
+                    int fighterMaxHP=myFighter.getFighterHP();
+                    int tankMaxHP=myTank.getTankHP();
                     myFighter.inventory.add(shortBlade);
                     myFighter.inventory.add(lightArmor);
                     myTank.inventory.add(lightArmor);
@@ -60,15 +64,34 @@ public class Test {
                             System.out.println("*******GAME OVER*******");
                             System.out.println("Your score is: " + score);
                             System.out.println("Please enter username:");
-                            String userName = input.nextLine();
+                            String userName = input.next();
                             String tempUser = userName+" - "+score;
-                            if(!scoreFile.exists())
-                                scoreFile.createNewFile();
+                            try {
+                                file = new File("D:/highscores.txt");
+                                fos = new FileOutputStream(file);
 
-                            FileWriter fileWriter = new FileWriter(scoreFile);
-                            BufferedWriter fileWriter2 = new BufferedWriter(fileWriter);
-                            fileWriter2.write(tempUser);
-                            fileWriter2.close();
+                                if (!file.exists()) {
+                                    file.createNewFile();
+                                }
+                                byte[] bytesArray = tempUser.getBytes();
+
+                                fos.write(bytesArray);
+                                fos.flush();
+                                System.out.println("File Written Successfully");
+                            }catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
+                            finally {
+                                try {
+                                    if (fos != null)
+                                    {
+                                        fos.close();
+                                    }
+                                }
+                                catch (IOException ioe) {
+                                    System.out.println("Error in closing the Stream");
+                                }
+                            }
                             break;
                         }
                         int deathEnemyCounter = 0;
@@ -325,6 +348,9 @@ public class Test {
                                                 break;
                                             }else if (healingCharacter==1 && myFighter.isAlive()){
                                                 myFighter.setFighterHP(myFighter.getFighterHP()+myHealer.activeWeapon.heal(myHealer));
+                                                if(myFighter.getFighterHP()>fighterMaxHP){
+                                                    myFighter.setFighterHP(fighterMaxHP);
+                                                }
                                                 System.out.println("Fighter healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
                                                 turnPass=false;
                                             }else if (healingCharacter==2 && !myTank.isAlive()){
@@ -333,9 +359,15 @@ public class Test {
                                             }else if (healingCharacter==2 && myTank.isAlive()){
                                                 myTank.setTankHP(myTank.getTankHP()+myHealer.activeWeapon.heal(myHealer));
                                                 System.out.println("Tank healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
+                                                if(myTank.getTankHP()>tankMaxHP){
+                                                    myTank.setTankHP(tankMaxHP);
+                                                }
                                                 turnPass=false;
                                             }else if (healingCharacter==3 && myHealer.isAlive()){
                                                 myHealer.setHealerHP(myHealer.getHealerHP()+myHealer.activeWeapon.heal(myHealer));
+                                                if(myHealer.getHealerHP()>healerMaxHP){
+                                                    myHealer.setHealerHP(healerMaxHP);
+                                                }
                                                 System.out.println("Healer healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
                                                 turnPass=false;
                                             }
@@ -428,12 +460,23 @@ public class Test {
                             }
 
                         }
-                        /*myFighter.setFighterHP(myFighter.getFighterHP() + (myFighter.getFighterHP() / 2)); //HP can go beyond limit
-                        myTank.setTankHP(myTank.getTankHP() + (myTank.getTankHP() / 2));
-                        myHealer.setHealerHP(myHealer.getHealerHP() + (myHealer.getHealerHP() / 2));*/
+
+                        myFighter.setFighterHP(myFighter.getFighterHP() + (myFighter.getFighterHP() / 3));
+                        if(myFighter.getFighterHP()>fighterMaxHP){
+                            myFighter.setFighterHP(fighterMaxHP);
+                        }
+                        myTank.setTankHP(myTank.getTankHP() + (myTank.getTankHP() / 3));
+                        if(myTank.getTankHP()>tankMaxHP){
+                            myTank.setTankHP(tankMaxHP);
+                        }
+                        myHealer.setHealerHP(myHealer.getHealerHP() + (myHealer.getHealerHP() / 3));
+                        if(myHealer.getHealerHP()>healerMaxHP){
+                            myHealer.setHealerHP(healerMaxHP);
+                        }
                         while (deathEnemyCounter>=tempSize) {
 
                             System.out.println("""
+                                    Player can now loot
                                     Please choose the character which you want to play:
                                     ----------------------------------
                                     Press 1 to Fighter
@@ -542,6 +585,27 @@ public class Test {
                     }
                     break;
                 case 2:
+                    try {
+                        FileInputStream data = new FileInputStream("D:/highscores.txt");
+
+                        System.out.println("Data in the file: ");
+
+
+                        int i = data.read();
+
+                        while(i != -1) {
+                            System.out.print((char)i);
+
+
+                            i = data.read();
+                        }
+                        input.close();
+                    }
+
+                    catch(Exception e) {
+                        e.getStackTrace();
+                    }
+
                     break;
                 case 3:
                     offSwitch = false;
