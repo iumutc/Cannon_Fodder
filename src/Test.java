@@ -1,12 +1,13 @@
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
-
-
+        File scoreFile = new File("highscores.txt");
 
         boolean offSwitch=true;
 
@@ -58,6 +59,16 @@ public class Test {
                         if (!myTank.isAlive && !myFighter.isAlive && !myHealer.isAlive) {
                             System.out.println("*******GAME OVER*******");
                             System.out.println("Your score is: " + score);
+                            System.out.println("Please enter username:");
+                            String userName = input.nextLine();
+                            String tempUser = userName+" - "+score;
+                            if(!scoreFile.exists())
+                                scoreFile.createNewFile();
+
+                            FileWriter fileWriter = new FileWriter(scoreFile);
+                            BufferedWriter fileWriter2 = new BufferedWriter(fileWriter);
+                            fileWriter2.write(tempUser);
+                            fileWriter2.close();
                             break;
                         }
                         int deathEnemyCounter = 0;
@@ -177,6 +188,7 @@ public class Test {
                                             break;
 
                                         case 2:
+
                                             break;
 
                                         case 3:
@@ -239,6 +251,7 @@ public class Test {
                                             break;
 
                                         case 2:
+
                                             break;
 
                                         case 3:
@@ -415,9 +428,9 @@ public class Test {
                             }
 
                         }
-                        myFighter.setFighterHP(myFighter.getFighterHP() + (myFighter.getFighterHP() / 2)); //HP can go beyond limit
+                        /*myFighter.setFighterHP(myFighter.getFighterHP() + (myFighter.getFighterHP() / 2)); //HP can go beyond limit
                         myTank.setTankHP(myTank.getTankHP() + (myTank.getTankHP() / 2));
-                        myHealer.setHealerHP(myHealer.getHealerHP() + (myHealer.getHealerHP() / 2));
+                        myHealer.setHealerHP(myHealer.getHealerHP() + (myHealer.getHealerHP() / 2));*/
                         while (deathEnemyCounter>=tempSize) {
 
                             System.out.println("""
