@@ -1,11 +1,10 @@
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Test {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         FileOutputStream fos = null;
         File file;
@@ -13,6 +12,7 @@ public class Test {
         boolean offSwitch=true;
 
         while (offSwitch){
+            System.out.println("");
             System.out.println("""
                     Welcome to the game CANNON FODDER!
                     -----------------------------------------------------------------------------------------------
@@ -307,6 +307,10 @@ public class Test {
                                         case 9:
                                             System.out.println("Your HP: "+myTank.getTankHP());
                                             break;
+
+                                        default:
+                                            System.out.println("Please enter a valid number");
+                                            break;
                                     }
 
                                 }else if(characterChoice==3){
@@ -403,8 +407,12 @@ public class Test {
                                         case 9:
                                             System.out.println("Your HP: "+myHealer.getHealerHP());
                                             break;
+                                        default:
+                                            System.out.println("Please enter a valid number");
+                                            break;
                                     }
-                                }
+                                }else
+                                    System.out.println("Please enter a valid number");
 
                             }else if(!turnPass){
                                 SecureRandom rd = new SecureRandom();
@@ -583,6 +591,7 @@ public class Test {
                             }
                         }
                     }
+
                     break;
                 case 2:
                     try {
@@ -599,7 +608,7 @@ public class Test {
 
                             i = data.read();
                         }
-                        input.close();
+
                     }
 
                     catch(Exception e) {
@@ -609,6 +618,10 @@ public class Test {
                     break;
                 case 3:
                     offSwitch = false;
+                    break;
+
+                default:
+                    System.out.println("Please enter a valid number");
                     break;
             }
         }
