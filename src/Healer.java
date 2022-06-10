@@ -2,20 +2,14 @@ import java.util.ArrayList;
 
 public class Healer extends Character{
 
-    private int healerHP;
 
-    public Healer(int s, int v, int i, boolean isAlive,int healerHP) {
-        super(s, v, i, isAlive);
-        this.healerHP=healerHP;
+
+    public Healer(int s, int v, int i, boolean isAlive,int HP) {
+        super(s, v, i, isAlive, HP);
+
     }
 
 
-    public int getHealerHP(){
-        return healerHP;
-    }
-    public void setHealerHP(int healerHP) {
-        this.healerHP = healerHP;
-    }
 
 
     @Override
@@ -26,6 +20,8 @@ public class Healer extends Character{
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
+
+
 
 
     //start of inventory related codes

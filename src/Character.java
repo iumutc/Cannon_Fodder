@@ -15,6 +15,16 @@ public abstract class Character {
     protected Armor activeArmor; // this too
     protected boolean isAlive=true;
 
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    protected int HP;
+
 
 
 
@@ -168,11 +178,12 @@ public abstract class Character {
 
 
 
-    public Character(int s,int v,int i, boolean isAlive){
+    public Character(int s,int v,int i, boolean isAlive, int HP){
         this.strength = s;
         this.vitality = v;
         this.intelligence = i;
         this.isAlive = isAlive;
+        this.HP = HP;
     }
 
 

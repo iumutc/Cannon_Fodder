@@ -1,4 +1,4 @@
-public abstract class Item {
+public abstract class Item{
 
     protected String name;
     protected double weight;

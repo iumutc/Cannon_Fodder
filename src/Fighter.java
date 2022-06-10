@@ -1,22 +1,16 @@
 public class Fighter extends Character {
 
 
-    private int fighterHP;
 
 
 
-    public int getFighterHP(){
-        return fighterHP;
-    }
-    public void setFighterHP(int fighterHP) {
-        this.fighterHP = fighterHP;
-    }
 
 
 
-    public Fighter(int s, int v, int i, boolean isAlive,int fighterHP) {
-        super(s, v, i, isAlive);
-        this.fighterHP=fighterHP;
+
+
+    public Fighter(int s, int v, int i, boolean isAlive,int HP) {
+        super(s, v, i, isAlive,HP);
     }
 
 

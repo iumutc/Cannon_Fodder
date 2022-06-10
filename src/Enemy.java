@@ -1,17 +1,17 @@
 public class Enemy extends Character{
 
-    private int enemyHP;
+
     private boolean isStunned;
     private String enemyName;
 
-    public Enemy(int s, int v, int i, boolean isAlive,int enemyHP) {
-        super(s, v, i, isAlive);
-        this.enemyHP=enemyHP;
+    public Enemy(int s, int v, int i, boolean isAlive,int HP) {
+        super(s, v, i, isAlive,HP);
+
     }
 
-    public int getEnemyHP(){
-        return enemyHP;
-    }
+
+
+
 
     public String getEnemyName() {
         return enemyName;
@@ -21,9 +21,6 @@ public class Enemy extends Character{
         this.enemyName = enemyName;
     }
 
-    public void setEnemyHP(int enemyHP) {
-        this.enemyHP = enemyHP;
-    }
 
 
 

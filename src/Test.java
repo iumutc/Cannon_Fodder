@@ -47,12 +47,12 @@ public class Test {
                     myHealer.setActiveWeapon(woodenWand);
                     int score = 0;
 
-                    System.out.println("Fighter created with S:" + myFighter.getStrength() + " V:" + myFighter.getVitality() + " I:" + myFighter.getIntelligence() + ".The HP is " + myFighter.getFighterHP() + ".Fighter wields "+shortBlade.getName()+" with " + shortBlade.getValue() + " damages and " + shortBlade.getWeight() + " units of weight.");
-                    System.out.println("Tank created with S:" + myTank.getStrength() + " V:" + myTank.getVitality() + " I:" + myTank.getIntelligence() + ".The HP is " + myTank.getTankHP() + ".Tank wields "+roundShield.getName()+" with " +roundShield.calculateDamage(myTank)+ " damages and " + roundShield.getWeight() + " unit of weight.");
-                    System.out.println("Healer created with S:" + myHealer.getStrength() + " V:" + myHealer.getVitality() + " I:" + myHealer.getIntelligence() + ".The HP is " + myHealer.getHealerHP() + ".Healer wields "+goldenWand.getName()+" with " + woodenWand.getValue() + " damages and " + woodenWand.getWeight() + " unit of weight.");
-                    int healerMaxHP=myHealer.getHealerHP();
-                    int fighterMaxHP=myFighter.getFighterHP();
-                    int tankMaxHP=myTank.getTankHP();
+                    System.out.println("Fighter created with S:" + myFighter.getStrength() + " V:" + myFighter.getVitality() + " I:" + myFighter.getIntelligence() + ".The HP is " + myFighter.getHP() + ".Fighter wields "+shortBlade.getName()+" with " + shortBlade.getValue() + " damages and " + shortBlade.getWeight() + " units of weight.");
+                    System.out.println("Tank created with S:" + myTank.getStrength() + " V:" + myTank.getVitality() + " I:" + myTank.getIntelligence() + ".The HP is " + myTank.getHP() + ".Tank wields "+roundShield.getName()+" with " +roundShield.calculateDamage(myTank)+ " damages and " + roundShield.getWeight() + " unit of weight.");
+                    System.out.println("Healer created with S:" + myHealer.getStrength() + " V:" + myHealer.getVitality() + " I:" + myHealer.getIntelligence() + ".The HP is " + myHealer.getHP() + ".Healer wields "+goldenWand.getName()+" with " + woodenWand.getValue() + " damages and " + woodenWand.getWeight() + " unit of weight.");
+                    int healerMaxHP=myHealer.getHP();
+                    int fighterMaxHP=myFighter.getHP();
+                    int tankMaxHP=myTank.getHP();
                     myFighter.inventory.add(shortBlade);
                     myFighter.inventory.add(lightArmor);
                     myTank.inventory.add(lightArmor);
@@ -108,8 +108,19 @@ public class Test {
                             enemyList.add(newEnemy);
                         }
                         for (Enemy enemy : enemyList) {
+                            int enemyWeapon = random.nextInt(10);
                             System.out.println(enemy.getEnemyName() + " created.");
-                            enemy.setActiveWeapon(shortBlade);
+
+                            if(enemyWeapon==0){
+                                enemy.setActiveWeapon(woodenShield);
+                                System.out.println("Enemy equipped Wooden Shield");
+                            }else if(enemyWeapon==1){
+                                enemy.setActiveWeapon(woodenWand);
+                                System.out.println("Enemy equipped Wooden Wand");
+                            }else{
+                                enemy.setActiveWeapon(shortBlade);
+                                System.out.println("Enemy equipped Short Blade");
+                            }
                         }
 
                         int tempSize = enemyList.size();
@@ -145,9 +156,9 @@ public class Test {
                                             }
                                             System.out.println("Choose the enemy you want to attack");
                                             int userEnemyChoice = (input.nextInt()-1);
-                                            enemyList.get(userEnemyChoice).setEnemyHP(enemyList.get(userEnemyChoice).getEnemyHP()-myFighter.getActiveWeapon().calculateDamage(myFighter));
-                                            System.out.println("Enemy take "+myFighter.getActiveWeapon().calculateDamage(myFighter)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getEnemyHP());
-                                            if(enemyList.get(userEnemyChoice).getEnemyHP()<=0){
+                                            enemyList.get(userEnemyChoice).setHP(enemyList.get(userEnemyChoice).getHP()-myFighter.getActiveWeapon().calculateDamage(myFighter));
+                                            System.out.println("Enemy take "+myFighter.getActiveWeapon().calculateDamage(myFighter)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getHP());
+                                            if(enemyList.get(userEnemyChoice).getHP()<=0){
                                                 System.out.println(enemyList.get(userEnemyChoice).getEnemyName()+" is dead");
                                                 enemyList.get(userEnemyChoice).setAlive(false);
                                                 enemyList.remove(userEnemyChoice);
@@ -242,7 +253,7 @@ public class Test {
                                             break;
 
                                         case 9:
-                                            System.out.println("Your HP: "+myFighter.getFighterHP());
+                                            System.out.println("Your HP: "+myFighter.getHP());
                                             break;
 
                                     }
@@ -260,9 +271,9 @@ public class Test {
                                             }
                                             System.out.println("Choose the enemy you want to attack");
                                             int userEnemyChoice = (input.nextInt()-1);
-                                            enemyList.get(userEnemyChoice).setEnemyHP(enemyList.get(userEnemyChoice).getEnemyHP()-myTank.getActiveWeapon().calculateDamage(myTank));
-                                            System.out.println("Enemy take "+myTank.getActiveWeapon().calculateDamage(myTank)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getEnemyHP());
-                                            if(enemyList.get(userEnemyChoice).getEnemyHP()<=0){
+                                            enemyList.get(userEnemyChoice).setHP(enemyList.get(userEnemyChoice).getHP()-myTank.getActiveWeapon().calculateDamage(myTank));
+                                            System.out.println("Enemy take "+myTank.getActiveWeapon().calculateDamage(myTank)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getHP());
+                                            if(enemyList.get(userEnemyChoice).getHP()<=0){
                                                 System.out.println(enemyList.get(userEnemyChoice).getEnemyName()+" is dead");
                                                 enemyList.get(userEnemyChoice).setAlive(false);
                                                 enemyList.remove(userEnemyChoice);
@@ -305,7 +316,7 @@ public class Test {
                                             break;
 
                                         case 9:
-                                            System.out.println("Your HP: "+myTank.getTankHP());
+                                            System.out.println("Your HP: "+myTank.getHP());
                                             break;
 
                                         default:
@@ -327,9 +338,9 @@ public class Test {
                                             }
                                             System.out.println("Choose the enemy you want to attack");
                                             int userEnemyChoice = (input.nextInt()-1);
-                                            enemyList.get(userEnemyChoice).setEnemyHP(enemyList.get(userEnemyChoice).getEnemyHP()-myHealer.getActiveWeapon().calculateDamage(myHealer));
-                                            System.out.println("Enemy take "+myHealer.getActiveWeapon().calculateDamage(myHealer)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getEnemyHP());
-                                            if(enemyList.get(userEnemyChoice).getEnemyHP()<=0){
+                                            enemyList.get(userEnemyChoice).setHP(enemyList.get(userEnemyChoice).getHP()-myHealer.getActiveWeapon().calculateDamage(myHealer));
+                                            System.out.println("Enemy take "+myHealer.getActiveWeapon().calculateDamage(myHealer)+" damage. Remaining enemy HP is "+enemyList.get(userEnemyChoice).getHP());
+                                            if(enemyList.get(userEnemyChoice).getHP()<=0){
                                                 System.out.println(enemyList.get(userEnemyChoice).getEnemyName()+" is dead");
                                                 enemyList.get(userEnemyChoice).setAlive(false);
                                                 enemyList.remove(userEnemyChoice);
@@ -351,28 +362,25 @@ public class Test {
                                                 System.out.println("Fighter is dead. Choose someone else");
                                                 break;
                                             }else if (healingCharacter==1 && myFighter.isAlive()){
-                                                myFighter.setFighterHP(myFighter.getFighterHP()+myHealer.activeWeapon.heal(myHealer));
-                                                if(myFighter.getFighterHP()>fighterMaxHP){
-                                                    myFighter.setFighterHP(fighterMaxHP);
+                                                goldenWand.specialAction(myFighter,myHealer);
+                                                if(myFighter.getHP()>fighterMaxHP){
+                                                    myFighter.setHP(fighterMaxHP);
                                                 }
-                                                System.out.println("Fighter healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
                                                 turnPass=false;
                                             }else if (healingCharacter==2 && !myTank.isAlive()){
                                                 System.out.println("Tank is dead. Choose someone else");
                                                 break;
                                             }else if (healingCharacter==2 && myTank.isAlive()){
-                                                myTank.setTankHP(myTank.getTankHP()+myHealer.activeWeapon.heal(myHealer));
-                                                System.out.println("Tank healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
-                                                if(myTank.getTankHP()>tankMaxHP){
-                                                    myTank.setTankHP(tankMaxHP);
+                                                goldenWand.specialAction(myTank,myHealer);
+                                                if(myTank.getHP()>tankMaxHP){
+                                                    myTank.setHP(tankMaxHP);
                                                 }
                                                 turnPass=false;
                                             }else if (healingCharacter==3 && myHealer.isAlive()){
-                                                myHealer.setHealerHP(myHealer.getHealerHP()+myHealer.activeWeapon.heal(myHealer));
-                                                if(myHealer.getHealerHP()>healerMaxHP){
-                                                    myHealer.setHealerHP(healerMaxHP);
+                                                goldenWand.specialAction(myHealer,myHealer);
+                                                if(myHealer.getHP()>healerMaxHP){
+                                                    myHealer.setHP(healerMaxHP);
                                                 }
-                                                System.out.println("Healer healed "+myHealer.activeWeapon.heal(myHealer)+" HP");
                                                 turnPass=false;
                                             }
                                             break;
@@ -405,7 +413,7 @@ public class Test {
                                             break;
 
                                         case 9:
-                                            System.out.println("Your HP: "+myHealer.getHealerHP());
+                                            System.out.println("Your HP: "+myHealer.getHP());
                                             break;
                                         default:
                                             System.out.println("Please enter a valid number");
@@ -418,26 +426,26 @@ public class Test {
                                 SecureRandom rd = new SecureRandom();
                                 int enemysTarget = rd.nextInt(2)+1;
                                 if(myTank.isAlive()){
-                                    myTank.setTankHP((myTank.getTankHP()+myTank.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
-                                    System.out.println("The enemy attacked your Tank with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Tank: "+myTank.getTankHP());
-                                    if(myTank.getTankHP()<=0){
+                                    myTank.setHP((myTank.getHP()+myTank.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
+                                    System.out.println("The enemy attacked your Tank with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Tank: "+myTank.getHP());
+                                    if(myTank.getHP()<=0){
                                         myTank.isAlive=false;
                                         System.out.println("Tank is dead");
                                     }
                                     turnPass=true;
                                 }else if(!myTank.isAlive && myFighter.isAlive() && myHealer.isAlive()){
                                     if(enemysTarget==1){
-                                        myFighter.setFighterHP((myFighter.getFighterHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
-                                        System.out.println("The enemy attacked your Fighter with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Fighter: "+myFighter.getFighterHP());
-                                        if(myFighter.getFighterHP()<=0){
+                                        myFighter.setHP((myFighter.getHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
+                                        System.out.println("The enemy attacked your Fighter with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Fighter: "+myFighter.getHP());
+                                        if(myFighter.getHP()<=0){
                                             myFighter.isAlive=false;
                                             System.out.println("Fighter is dead");
                                         }
                                         turnPass=true;
                                     }else if(enemysTarget==2){
-                                        myHealer.setHealerHP((myHealer.getHealerHP()+myHealer.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
-                                        System.out.println("The enemy attacked your Healer with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Healer: "+myHealer.getHealerHP());
-                                        if(myHealer.getHealerHP()<=0){
+                                        myHealer.setHP((myHealer.getHP()+myHealer.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
+                                        System.out.println("The enemy attacked your Healer with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Healer: "+myHealer.getHP());
+                                        if(myHealer.getHP()<=0){
                                             myHealer.isAlive=false;
                                             System.out.println("Healer is dead");
                                         }
@@ -445,18 +453,18 @@ public class Test {
                                     }
                                 }else if((myFighter.isAlive() && !myHealer.isAlive) || (!myFighter.isAlive && myHealer.isAlive())){
                                     if(myFighter.isAlive){
-                                        myFighter.setFighterHP((myFighter.getFighterHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myFighter));
-                                        System.out.println("The enemy attacked your Fighter with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Fighter: "+myFighter.getFighterHP());
-                                        if(myFighter.getFighterHP()<=0){
+                                        myFighter.setHP((myFighter.getHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myFighter));
+                                        System.out.println("The enemy attacked your Fighter with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Fighter: "+myFighter.getHP());
+                                        if(myFighter.getHP()<=0){
                                             myFighter.isAlive=false;
                                             System.out.println("Fighter is dead. Game Over");
                                             break;
                                         }
                                         turnPass=true;
                                     }else if(myHealer.isAlive){
-                                        myHealer.setHealerHP((myHealer.getHealerHP()+myHealer.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myHealer));
-                                        System.out.println("The enemy attacked your Healer with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Healer: "+myHealer.getHealerHP());
-                                        if(myHealer.getHealerHP()<=0){
+                                        myHealer.setHP((myHealer.getHP()+myHealer.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myHealer));
+                                        System.out.println("The enemy attacked your Healer with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Healer: "+myHealer.getHP());
+                                        if(myHealer.getHP()<=0){
                                             myHealer.isAlive=false;
                                             System.out.println("Healer is dead.Game Over");
                                             break;
@@ -469,17 +477,17 @@ public class Test {
 
                         }
 
-                        myFighter.setFighterHP(myFighter.getFighterHP() + (myFighter.getFighterHP() / 3));
-                        if(myFighter.getFighterHP()>fighterMaxHP){
-                            myFighter.setFighterHP(fighterMaxHP);
+                        myFighter.setHP(myFighter.getHP() + (myFighter.getHP() / 3));
+                        if(myFighter.getHP()>fighterMaxHP){
+                            myFighter.setHP(fighterMaxHP);
                         }
-                        myTank.setTankHP(myTank.getTankHP() + (myTank.getTankHP() / 3));
-                        if(myTank.getTankHP()>tankMaxHP){
-                            myTank.setTankHP(tankMaxHP);
+                        myTank.setHP(myTank.getHP() + (myTank.getHP() / 3));
+                        if(myTank.getHP()>tankMaxHP){
+                            myTank.setHP(tankMaxHP);
                         }
-                        myHealer.setHealerHP(myHealer.getHealerHP() + (myHealer.getHealerHP() / 3));
-                        if(myHealer.getHealerHP()>healerMaxHP){
-                            myHealer.setHealerHP(healerMaxHP);
+                        myHealer.setHP(myHealer.getHP() + (myHealer.getHP() / 3));
+                        if(myHealer.getHP()>healerMaxHP){
+                            myHealer.setHP(healerMaxHP);
                         }
                         while (deathEnemyCounter>=tempSize) {
 
@@ -522,7 +530,7 @@ public class Test {
                                 } else if (userChoice == 8) {
                                     System.out.println("Your armor: " + myFighter.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
-                                    System.out.println("Your HP: " + myFighter.getFighterHP());
+                                    System.out.println("Your HP: " + myFighter.getHP());
                                 } else if (userChoice == 10)
                                     break;
 
@@ -554,7 +562,7 @@ public class Test {
                                 } else if (userChoice == 8) {
                                     System.out.println("Your armor: " + myTank.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
-                                    System.out.println("Your HP: " + myTank.getTankHP());
+                                    System.out.println("Your HP: " + myTank.getHP());
                                 } else if (userChoice == 10)
                                     break;
                             }else if(characterChoice==3){
@@ -585,7 +593,7 @@ public class Test {
                                 } else if (userChoice == 8) {
                                     System.out.println("Your armor: " + myHealer.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
-                                    System.out.println("Your HP: " + myHealer.getHealerHP());
+                                    System.out.println("Your HP: " + myHealer.getHP());
                                 } else if (userChoice == 10)
                                     break;
                             }
