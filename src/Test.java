@@ -29,9 +29,9 @@ public class Test {
                     int mediumNumber = random.nextInt(3,7);
                     int largeNumber = random.nextInt(6,10);
 
-                    Fighter myFighter = new Fighter(largeNumber,mediumNumber,smallNumber,true,((2*largeNumber)+(7*mediumNumber)+(smallNumber)));
-                    Tank myTank = new Tank(smallNumber,largeNumber,mediumNumber,true,((2*smallNumber)+(7*largeNumber)+mediumNumber));
-                    Healer myHealer = new Healer(mediumNumber,smallNumber,largeNumber,true,((2*mediumNumber)+largeNumber+(7*smallNumber)));
+                    Fighter myFighter = new Fighter(largeNumber,mediumNumber,smallNumber,true,((2*largeNumber)+(7*mediumNumber)+(smallNumber)), false);
+                    Tank myTank = new Tank(smallNumber,largeNumber,mediumNumber,true,((2*smallNumber)+(7*largeNumber)+mediumNumber), false);
+                    Healer myHealer = new Healer(mediumNumber,smallNumber,largeNumber,true,((2*mediumNumber)+largeNumber+(7*smallNumber)), false);
                     Armor lightArmor = new Armor("Light Armor",2,1);
                     ShortBlade shortBlade = new ShortBlade(5,1);
                     WoodenWand woodenWand = new WoodenWand(3,1);
@@ -94,6 +94,7 @@ public class Test {
                             }
                             break;
                         }
+                        int enemyStunCounter = 0;
                         int deathEnemyCounter = 0;
                         ArrayList<Enemy> enemyList = new ArrayList<>();
                         ArrayList<Item> droppedItemList = new ArrayList<>();
@@ -103,7 +104,7 @@ public class Test {
                         int enemyGenerator = (int) Math.pow(2, i);
                         for (int k = 0; k < enemyGenerator; k++) {
                             int enemyStats = random.nextInt(1,5);
-                            Enemy newEnemy = new Enemy(enemyStats,enemyStats,enemyStats,true,(10*enemyStats));
+                            Enemy newEnemy = new Enemy(enemyStats,enemyStats,enemyStats,true,(10*enemyStats),false);
                             newEnemy.setEnemyName("Enemy" + (k + 1));
                             enemyList.add(newEnemy);
                         }
@@ -285,7 +286,16 @@ public class Test {
                                             break;
 
                                         case 2:
-
+                                            int stunChance = random.nextInt(enemyList.size());
+                                            int stunPower = myTank.getActiveWeapon().stun(myTank);
+                                            if(stunChance>stunPower){
+                                                System.out.println("Enemy escape from stunning");
+                                            }else {
+                                                for(int n=0;n<enemyList.size();n++){
+                                                    roundShield.specialAction(enemyList.get(n),myTank );
+                                                }
+                                                System.out.println("Enemy stunned for 2 turns");
+                                            }
                                             break;
 
                                         case 3:
@@ -330,7 +340,9 @@ public class Test {
                                         continue;
                                     }
                                     myHealer.characterMenu();
-                                    int userMenuChoice = input.nextInt();
+
+                                        int userMenuChoice = input.nextInt();
+
                                     switch (userMenuChoice){
                                         case 1:
                                             for (int j=0;j<enemyList.size();j++){
@@ -425,6 +437,17 @@ public class Test {
                             }else if(!turnPass){
                                 SecureRandom rd = new SecureRandom();
                                 int enemysTarget = rd.nextInt(2)+1;
+                                if(enemyList.get(0).isAlive() && enemyList.get(0).isStunned() && enemyStunCounter<2){
+                                    enemyStunCounter+=1;
+                                    turnPass=true;
+                                    continue;
+                                }
+                                if (enemyStunCounter>=2){
+                                    enemyStunCounter=0;
+                                    for(int n=0;n<enemyList.size();n++){
+                                        enemyList.get(n).setStunned(false);
+                                    }
+                                }
                                 if(myTank.isAlive()){
                                     myTank.setHP((myTank.getHP()+myTank.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
                                     System.out.println("The enemy attacked your Tank with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Tank: "+myTank.getHP());
@@ -477,18 +500,7 @@ public class Test {
 
                         }
 
-                        myFighter.setHP(myFighter.getHP() + (myFighter.getHP() / 3));
-                        if(myFighter.getHP()>fighterMaxHP){
-                            myFighter.setHP(fighterMaxHP);
-                        }
-                        myTank.setHP(myTank.getHP() + (myTank.getHP() / 3));
-                        if(myTank.getHP()>tankMaxHP){
-                            myTank.setHP(tankMaxHP);
-                        }
-                        myHealer.setHP(myHealer.getHP() + (myHealer.getHP() / 3));
-                        if(myHealer.getHP()>healerMaxHP){
-                            myHealer.setHP(healerMaxHP);
-                        }
+
                         while (deathEnemyCounter>=tempSize) {
 
                             System.out.println("""
@@ -531,8 +543,24 @@ public class Test {
                                     System.out.println("Your armor: " + myFighter.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
                                     System.out.println("Your HP: " + myFighter.getHP());
-                                } else if (userChoice == 10)
+                                } else if (userChoice == 10){
+                                    myFighter.setHP(myFighter.getHP() + (myFighter.getHP() / 3));
+                                    if(myFighter.getHP()>fighterMaxHP){
+                                        myFighter.setHP(fighterMaxHP);
+                                        System.out.println("Fighter healed");
+                                    }
+                                    myTank.setHP(myTank.getHP() + (myTank.getHP() / 3));
+                                    if(myTank.getHP()>tankMaxHP){
+                                        myTank.setHP(tankMaxHP);
+                                        System.out.println("Tank healed");
+                                    }
+                                    myHealer.setHP(myHealer.getHP() + (myHealer.getHP() / 3));
+                                    if(myHealer.getHP()>healerMaxHP){
+                                        myHealer.setHP(healerMaxHP);
+                                        System.out.println("Healer healed");
+                                    }
                                     break;
+                                }
 
                             }else if(characterChoice==2){
                                 myTank.endLevelMenu();
@@ -563,8 +591,24 @@ public class Test {
                                     System.out.println("Your armor: " + myTank.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
                                     System.out.println("Your HP: " + myTank.getHP());
-                                } else if (userChoice == 10)
+                                } else if (userChoice == 10){
+                                    myFighter.setHP(myFighter.getHP() + (myFighter.getHP() / 3));
+                                    if(myFighter.getHP()>fighterMaxHP){
+                                        myFighter.setHP(fighterMaxHP);
+                                        System.out.println("Fighter healed");
+                                    }
+                                    myTank.setHP(myTank.getHP() + (myTank.getHP() / 3));
+                                    if(myTank.getHP()>tankMaxHP){
+                                        myTank.setHP(tankMaxHP);
+                                        System.out.println("Tank healed");
+                                    }
+                                    myHealer.setHP(myHealer.getHP() + (myHealer.getHP() / 3));
+                                    if(myHealer.getHP()>healerMaxHP){
+                                        myHealer.setHP(healerMaxHP);
+                                        System.out.println("Healer healed");
+                                    }
                                     break;
+                                }
                             }else if(characterChoice==3){
                                 myHealer.endLevelMenu();
                                 int userChoice = input.nextInt();
@@ -594,8 +638,24 @@ public class Test {
                                     System.out.println("Your armor: " + myHealer.getActiveArmor().getValue());
                                 } else if (userChoice == 9) {
                                     System.out.println("Your HP: " + myHealer.getHP());
-                                } else if (userChoice == 10)
+                                } else if (userChoice == 10){
+                                    myFighter.setHP(myFighter.getHP() + (myFighter.getHP() / 3));
+                                    if(myFighter.getHP()>fighterMaxHP){
+                                        myFighter.setHP(fighterMaxHP);
+                                        System.out.println("Fighter healed");
+                                    }
+                                    myTank.setHP(myTank.getHP() + (myTank.getHP() / 3));
+                                    if(myTank.getHP()>tankMaxHP){
+                                        myTank.setHP(tankMaxHP);
+                                        System.out.println("Tank healed");
+                                    }
+                                    myHealer.setHP(myHealer.getHP() + (myHealer.getHP() / 3));
+                                    if(myHealer.getHP()>healerMaxHP){
+                                        myHealer.setHP(healerMaxHP);
+                                        System.out.println("Healer healed");
+                                    }
                                     break;
+                                }
                             }
                         }
                     }

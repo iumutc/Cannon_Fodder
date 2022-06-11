@@ -4,8 +4,8 @@ public class Healer extends Character{
 
 
 
-    public Healer(int s, int v, int i, boolean isAlive,int HP) {
-        super(s, v, i, isAlive, HP);
+    public Healer(int s, int v, int i, boolean isAlive,int HP, boolean isStunned) {
+        super(s, v, i, isAlive, HP, isStunned);
 
     }
 

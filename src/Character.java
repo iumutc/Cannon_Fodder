@@ -14,6 +14,7 @@ public abstract class Character {
     protected Item activeWeapon; //declaring them like this is going to be a problem later on
     protected Armor activeArmor; // this too
     protected boolean isAlive=true;
+    private boolean isStunned;
 
     public int getHP() {
         return HP;
@@ -26,10 +27,13 @@ public abstract class Character {
     protected int HP;
 
 
+    public boolean isStunned() {
+        return isStunned;
+    }
 
-
-    SecureRandom random = new SecureRandom();
-
+    public void setStunned(boolean stunned) {
+        isStunned = stunned;
+    }
 
     public int getStrength() {
 
@@ -178,12 +182,13 @@ public abstract class Character {
 
 
 
-    public Character(int s,int v,int i, boolean isAlive, int HP){
+    public Character(int s,int v,int i, boolean isAlive, int HP, boolean isStunned){
         this.strength = s;
         this.vitality = v;
         this.intelligence = i;
         this.isAlive = isAlive;
         this.HP = HP;
+        this.isStunned = isStunned;
     }
 
 

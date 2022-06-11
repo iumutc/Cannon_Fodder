@@ -1,4 +1,6 @@
-public class Shield extends Item{
+import java.security.SecureRandom;
+
+public class Shield extends Item implements SpecialAction{
 
 
     @Override
@@ -21,4 +23,9 @@ public class Shield extends Item{
         return 0;
     }
 
+    @Override
+    public void specialAction(Character target, Character tank) {
+        target.setStunned(true);
+
+    }
 }
