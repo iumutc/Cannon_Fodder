@@ -96,6 +96,7 @@ public class Test {
                         }
                         int enemyStunCounter = 0;
                         int deathEnemyCounter = 0;
+                        int fighterInactivityCounter=0;
                         ArrayList<Enemy> enemyList = new ArrayList<>();
                         ArrayList<Item> droppedItemList = new ArrayList<>();
 
@@ -146,6 +147,10 @@ public class Test {
                                 if (characterChoice == 1) {
                                     if(!myFighter.isAlive()){
                                         System.out.println("Fighter is dead. Please choose another character");
+                                        continue;
+                                    }
+                                    if(myFighter.isStunned()){
+                                        System.out.println("Fighter is inactive right now. Please choose another character");
                                         continue;
                                     }
                                     myFighter.characterMenu();
@@ -223,7 +228,12 @@ public class Test {
                                             break;
 
                                         case 2:
-
+                                            if(!myHealer.isAlive()){
+                                                System.out.println("You can not use this action because you are the only one alive");
+                                                break;
+                                            }
+                                            shortBlade.specialAction(enemyList.get(0),myFighter);
+                                            turnPass=false;
                                             break;
 
                                         case 3:
@@ -296,6 +306,7 @@ public class Test {
                                                 }
                                                 System.out.println("Enemy stunned for 2 turns");
                                             }
+                                            turnPass=false;
                                             break;
 
                                         case 3:
@@ -456,7 +467,7 @@ public class Test {
                                         System.out.println("Tank is dead");
                                     }
                                     turnPass=true;
-                                }else if(!myTank.isAlive && myFighter.isAlive() && myHealer.isAlive()){
+                                }else if(!myTank.isAlive && myFighter.isAlive() && !myFighter.isStunned() && myHealer.isAlive()){
                                     if(enemysTarget==1){
                                         myFighter.setHP((myFighter.getHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0)));
                                         System.out.println("The enemy attacked your Fighter with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Fighter: "+myFighter.getHP());
@@ -474,6 +485,20 @@ public class Test {
                                         }
                                         turnPass=true;
                                     }
+                                }else if(!myTank.isAlive && myFighter.isAlive() && myFighter.isStunned() && myHealer.isAlive()){
+                                    myHealer.setHP((myHealer.getHP()+myHealer.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myHealer));
+                                    System.out.println("The enemy attacked your Healer with "+enemyList.get(0).getActiveWeapon().calculateDamage(enemyList.get(0))+" damage. Remaining HP of the Healer: "+myHealer.getHP());
+                                    if(myHealer.getHP()<=0){
+                                        myHealer.isAlive=false;
+                                        System.out.println("Healer is dead");
+                                    }
+                                    if(fighterInactivityCounter>3){
+                                            myFighter.setStunned(false);
+                                            fighterInactivityCounter=0;
+                                        }
+                                        fighterInactivityCounter +=1;
+
+                                    turnPass=true;
                                 }else if((myFighter.isAlive() && !myHealer.isAlive) || (!myFighter.isAlive && myHealer.isAlive())){
                                     if(myFighter.isAlive){
                                         myFighter.setHP((myFighter.getHP()+myFighter.getActiveArmor().getValue())-enemyList.get(0).getActiveWeapon().calculateDamage(myFighter));
@@ -494,6 +519,7 @@ public class Test {
                                         }
                                         turnPass=true;
                                     }
+
                                 }
 
                             }
