@@ -28,5 +28,5 @@ public class WoodenWand extends Wand{
         this.value=woodenWandValue;
         this.weight=woodenWandWeight;
     }
-    public WoodenWand(){}
+
 }

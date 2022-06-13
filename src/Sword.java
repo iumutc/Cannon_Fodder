@@ -12,11 +12,6 @@ public class Sword extends Item implements SpecialAction{
     }
 
     @Override
-    public int inactivity(Character character) {
-        return 0;
-    }
-
-    @Override
     public int stun(Character character) {
         return 0;
     }

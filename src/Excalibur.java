@@ -27,11 +27,6 @@ public class Excalibur extends Sword {
         return damage;
     }
 
-    @Override
-    public int inactivity(Character character) {
-        inactivity = (getValue()*character.getStrength());
-        return inactivity;
-    }
 
     public Excalibur(int valueofExcalibur,double weightofExcalibur){
         this.value = valueofExcalibur;

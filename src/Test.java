@@ -227,6 +227,7 @@ public class Test {
                                                     break;
 
                                                 case 2:
+
                                                     if (!myHealer.isAlive()) {
                                                         System.out.println("You can not use this action because you are the only one alive");
                                                         break;

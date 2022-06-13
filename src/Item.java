@@ -30,15 +30,9 @@ public abstract class Item{
 
     public abstract int calculateDamage(Character character);
     public abstract int heal(Character character);
-    public abstract int inactivity(Character character);
     public abstract int stun(Character character);
 
 
     public Item(){}
 
-    public Item(String name,double weight,int value){
-        this.name = name;
-        this.weight = weight;
-        this.value = value;
-    }
 }

@@ -22,16 +22,10 @@ public class Katana extends Sword{
         return damage;
     }
 
-    //Inactivity is the number of enemies to keep away from fighter!
-    @Override
-    public int inactivity(Character character) {
-        int inactivity = (getValue()*character.getStrength());
-        return inactivity;
-    }
 
     public Katana(int valueofKatana, double weightofKatana){
         this.value = valueofKatana;
         this.weight = weightofKatana;
     }
-    public Katana(){}
+
 }

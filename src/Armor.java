@@ -37,10 +37,6 @@ public class Armor extends Item{
         return 0;
     }
 
-    @Override
-    public int inactivity(Character character) {
-        return 0;
-    }
 
     @Override
     public int stun(Character character) {
